@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>b776ef11-4ded-495f-93e6-15794b5df562</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>module2.py</StartupFile>
+    <StartupFile>module15.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -26,7 +26,49 @@
     <Compile Include="module1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="module10.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module14.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module15.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="module2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module20.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module3.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module4.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module5.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module6.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module7.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module8.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module9.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module11.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module12.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module13.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="_100Taskschalleng.py" />

@@ -1,18 +1,25 @@
 import numpy as np
-import os
+import os,sys
 import time
 from colorama import init, Fore, Back, Style
 import threading
 from msvcrt import getch
 init(autoreset=False)
 from ctypes import *
- 
+
 STD_OUTPUT_HANDLE = -11
  
 class COORD(Structure):
     pass
  
 COORD._fields_ = [("X", c_short), ("Y", c_short)]
+
+isRunning = True
+
+
+
+
+
 
 def printColoredSudoku(before, testData):
     for i in range (0,9):
@@ -213,6 +220,8 @@ class SudokuGrid:
         for loops in range(0,10):
             if breakNextLoop:
                 break
+            if not isRunning:
+                return "Interrupted"
             breakNextLoop = True
             breakLoop = False
             for i in range(0, 20):
@@ -227,6 +236,8 @@ class SudokuGrid:
                         self.grid[obj.x, obj.y] = obj.me
                         if abortable_sleep(1):
                             pass
+                        if not isRunning:
+                            return "Interrupted"
                         print_at(obj.x+obj.houseNumber[0], obj.y+obj.houseNumber[1], str(obj.me))
                         self.cells.remove(obj)
 
@@ -235,6 +246,8 @@ class SudokuGrid:
                 if breakLoop:
                     """print("missing", i)"""
                     break
+                if not isRunning:
+                    return "Interrupted"
                 breakLoop = True
                 for obj in self.cells:
                     obj.clearLists()
@@ -283,6 +296,7 @@ class SudokuGrid:
             if len(test) != 9:
                 return False
         return True;
+            
 
 testData5 = np.array([[1,4,0,2,0,8,5,0,7],[9,0,8,0,0,0,0,0,0],[0,5,6,1,0,3,9,2,8],[3,6,1,0,5,4,2,8,0],[8,7,0,0,2,0,0,5,0],[5,9,2,0,0,0,0,0,0],[0,3,0,9,0,2,7,0,4],[2,8,0,0,3,1,6,9,0],[4,1,0,0,6,7,8,0,2]])
 
@@ -294,17 +308,30 @@ testData2 = np.array([[5,0,0,0,0,0,0,0,1],[2,6,0,0,0,0,0,0,3],[0,0,0,0,0,0,9,0,0
 
 testData = np.array([[9,0,0,0,0,0,0,0,1],[0,5,0,0,7,0,6,0,0],[1,0,0,0,0,0,7,0,5],[0,0,4,7,2,0,0,0,0],[0,0,0,5,4,6,1,3,0],[6,2,0,9,0,8,0,0,0],[0,7,0,3,0,0,2,0,4],[2,1,0,6,0,0,0,7,0],[0,0,6,0,0,0,5,1,3]])
 
-"""for i in range (0,9):
-    print(len(testData[i]))"""
 
+
+delimiterChar = input('Insert delimiter char and press Enter\n')
+os.system('cls')
+fromFile = np.genfromtxt('Sudoku.txt', dtype=(int), delimiter=delimiterChar)
+print_at(0,15, "Press any button and hop to next step")
+print_at(1,15, "Press ESC to exit")
+print_at(0,0,"")
+if len(fromFile) != 9:
+    sys.exit()
+for i in range (0,9):
+    try:
+        if len(fromFile[i]) != 9:
+            sys.exit()
+    except:
+        sys.exit()
 
 for i in range (0,9):
     for j in range (0,9):
-        if testData[i][j] == 0:
+        if fromFile[i][j] == 0:
             print(Fore.WHITE, end="")
         else:
             print(Fore.GREEN, end="")
-        print(testData[i][j], end="")
+        print(fromFile[i][j], end="")
         if (j+1) % 3 == 0:
             print(Fore.MAGENTA, end="")
             print("|", end="")
@@ -315,12 +342,13 @@ for i in range (0,9):
     print ("")
 
 print(Fore.LIGHTCYAN_EX)
-before = np.array(testData)
+before = np.array(fromFile)
 
 
-obj = SudokuGrid(testData)
+obj = SudokuGrid(fromFile)
 class AbortableSleep():
     def __init__(self):
+        self.isRunning = True
         self._condition = threading.Condition()
 
     def __call__(self, secs):
@@ -333,13 +361,16 @@ class AbortableSleep():
         with self._condition:
             self._condition.notify()
             self._aborted = True
-abortable_sleep = AbortableSleep()
-threading.Thread(target=obj.animatedSolve).start()
 
+abortable_sleep = AbortableSleep()
+th = threading.Thread(target=obj.animatedSolve)
+th.start()
 while True:
     key = ord(getch())
     abortable_sleep.abort()
     if key == 27: #ESC
+        isRunning = False
+        print_at(15,0, "")
         break
 
 """

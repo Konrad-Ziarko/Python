@@ -13,7 +13,8 @@ class SingleCell:
         self.missingInRow = missingInRow
         self.missingInColumn = missingInColumn
         self.missingInHouse = missingInHouse
-        self.cleanLists()
+        self.potencialNumbers = []
+        self.clearLists()
 
     def simpleCheck(self):
         if len(self.missingInColumn) == 1:
@@ -26,7 +27,7 @@ class SingleCell:
             return False
         return True
 
-    def cleanLists(self):
+    def clearLists(self):
         for removeValue in self.column:
             try:
                 self.missingInRow.remove(removeValue)
@@ -46,14 +47,15 @@ class SingleCell:
             except ValueError:
                 pass
         for removeValue in self.house:
-            try:
-                self.missingInRow.remove(removeValue)
-            except ValueError:
-                pass    
-            try:
-                self.missingInColumn.remove(removeValue)
-            except ValueError:
-                pass
+            for removeValue2 in removeValue:
+                try:
+                    self.missingInRow.remove(removeValue2)
+                except ValueError:
+                    pass    
+                try:
+                    self.missingInColumn.remove(removeValue2)
+                except ValueError:
+                    pass
 class SudokuGrid:
     def __init__(self, grid):
         self.grid = grid
@@ -92,7 +94,7 @@ class SudokuGrid:
                                     houseNumber[1]=2
                                 else:
                                     houseNumber[1]=1
-                            house = self.grid[0+houseNumber[0]*3:2+houseNumber[0]*3, 0+houseNumber[1]*3:2+houseNumber[1]*3]
+                            house = self.grid[houseNumber[0]*3:3+houseNumber[0]*3, houseNumber[1]*3:3+houseNumber[1]*3]
                             missingInHouse = [1,2,3,4,5,6,7,8,9]
                             for i2 in range (0+houseNumber[0]*3,3+houseNumber[0]*3):
                                 for j2 in range (0+houseNumber[1]*3,3+houseNumber[1]*3):
@@ -105,60 +107,24 @@ class SudokuGrid:
                             else:
                                 self.cells.append(SingleCell(i, j, houseNumber, row, column, house, missingInRow, missingInColumn, missingInHouse))
     def trySolve(self):
+        breakNextLoop = False
         for loops in range(0,10):
+            if breakNextLoop:
+                break
+            breakNextLoop = True
             breakLoop = False
             for i in range(0, 20):
                 if breakLoop:
-                    print("simple", i+1)
+                    print("simple", i)
                     break
                 breakLoop = True
                 for obj in self.cells:
-                    obj.cleanLists()
+                    obj.clearLists()
                     if obj.simpleCheck():
                         breakLoop = False
                         self.grid[obj.x, obj.y] = obj.me
                         self.cells.remove(obj)
 
-            breakLoop = False
-            for i in range(0, 20):
-                if breakLoop:
-                    print("missing", i+1)
-                    break
-                breakLoop = True
-                for obj in self.cells:
-                    obj.cleanLists()
-                    if obj.simpleCheck():
-                        self.grid[obj.x, obj.y] = obj.me
-                        self.cells.remove(obj)
-                        continue
-                    potencialNumbers = list(obj.missingInHouse)
-                    for obj2 in self.cells:
-                        if obj2.houseNumber == obj.houseNumber and obj2!=obj:
-                            for removeValue in obj2.missingInHouse:
-                                try:
-                                    potencialNumbers.remove(removeValue)
-                                except ValueError:
-                                    if len(potencialNumbers) == 0:
-                                        break
-                                    pass
-                            if len(potencialNumbers) == 0:
-                                        break
-                    if len(potencialNumbers)==1:
-                        breakLoop = False
-                        self.grid[obj.x, obj.y] = obj.me = potencialNumbers[0]
-                        self.cells.remove(obj)
-            
-            nextLoop = False
-            for i in range (0,9):
-                for j in range (0,9):
-                    if self.grid[i,j] == 0:
-                        nextLoop=True;
-                        break
-                if nextLoop:
-                    break
-            if nextLoop:
-                    break                                
-            """
             breakLoop = False
             for i in range(0, 20):
                 if breakLoop:
@@ -166,35 +132,37 @@ class SudokuGrid:
                     break
                 breakLoop = True
                 for obj in self.cells:
-                    obj.cleanLists()
+                    obj.clearLists()
                     if obj.simpleCheck():
                         self.grid[obj.x, obj.y] = obj.me
                         self.cells.remove(obj)
                         continue
-                    houseNum = obj.houseNumber
-                    potencialHouseNumbers = list(obj.missingInHouse)
+                    obj.potencialNumbers = list(set(obj.missingInHouse).intersection(set(obj.missingInColumn).intersection(obj.missingInRow)))
                     for obj2 in self.cells:
-                        if houseNum == obj2.houseNumber:
-                            if obj2.x != obj.x and obj2.y != obj.y:
-                                obj2.cleanLists()
-                                for removeValue in obj2.missingInHouse:
-                                    try:
-                                        potencialHouseNumbers.remove(removeValue)
-                                    except ValueError:
-                                        if len(potencialHouseNumbers) == 0:
-                                            break
-                                        pass
-                        if len(potencialHouseNumbers) == 0:
-                            break
-                    if len(potencialHouseNumbers) == 0:
-                            continue
-                    if len(potencialHouseNumbers) == 1:
-                        breakLoop = False
-                        self.grid[obj.x, obj.y] = obj.me = potencialHouseNumbers[0]
-                        self.cells.remove(obj)
-            """
+                        if obj2.houseNumber == obj.houseNumber and obj2!=obj:
+                            
+                            """obj.potencialNumbers = list(set(obj.potencialNumbers).intersection(set(obj.missingInHouse).intersection(set(obj.missingInColumn).intersection(obj.missingInRow))))"""
+                            obj2.potencialNumbers = list(set(obj2.missingInHouse).intersection(set(obj2.missingInColumn).intersection(obj2.missingInRow)))
+                            obj.potencialNumbers = list(set(obj.potencialNumbers).difference(obj2.potencialNumbers))
+                            if len(obj.potencialNumbers) == 0:
+                                        break
+                    if len(obj.potencialNumbers)==1:
+                        obj.potencialNumbers = list(set(obj.potencialNumbers).intersection(set(obj.missingInHouse).intersection(set(obj.missingInColumn).intersection(obj.missingInRow))))
+                        if len(obj.potencialNumbers)==1:
+                            breakLoop = False
+                            self.grid[obj.x, obj.y] = obj.me = obj.potencialNumbers[0]
+                            self.cells.remove(obj)
+            
+            
+            for i in range (0,9):
+                for j in range (0,9):
+                    if self.grid[i,j] == 0:
+                        breakNextLoop=False;
+                        break
+                if not breakNextLoop:
+                    break
 
-        print("loops", loops+1)
+        print("loops", loops)
         for i in range (0,9):
             test = set(self.grid[i, :])
             if len(test) != 9:
@@ -205,14 +173,15 @@ class SudokuGrid:
                 return False
         return True;
 
-testData3 = np.array([[1,4,0,2,0,8,5,0,7],[9,0,8,0,0,0,0,0,0],[0,5,6,1,0,3,9,2,8],[3,6,1,0,5,4,2,8,0],[8,7,0,0,2,0,0,5,0],[5,9,2,0,0,0,0,0,0],[0,3,0,9,0,2,7,0,4],[2,8,0,0,3,1,6,9,0],[4,1,0,0,6,7,8,0,2]])
-"""testData = [[1,4,3,2,9,8,5,6,7],[9,2,8,6,7,5,3,4,1],[7,5,6,1,4,3,9,2,8],[3,6,1,7,5,4,2,8,9],[8,7,4,3,2,9,1,5,6],[5,9,2,8,1,6,4,7,3],[6,3,5,9,8,2,7,1,4],[2,8,7,4,3,1,6,9,5],[4,1,9,5,6,7,8,3,2]]"""
+testData5 = np.array([[1,4,0,2,0,8,5,0,7],[9,0,8,0,0,0,0,0,0],[0,5,6,1,0,3,9,2,8],[3,6,1,0,5,4,2,8,0],[8,7,0,0,2,0,0,5,0],[5,9,2,0,0,0,0,0,0],[0,3,0,9,0,2,7,0,4],[2,8,0,0,3,1,6,9,0],[4,1,0,0,6,7,8,0,2]])
 
-testData2 = np.array([[0,0,0,5,0,0,0,0,0],[7,5,4,3,6,1,2,0,0],[3,0,0,0,0,0,0,7,6],[8,0,9,4,1,0,6,0,3],[6,3,0,7,0,9,1,0,0],[0,4,0,0,8,0,9,5,0],[5,1,0,9,0,8,0,0,2],[0,0,0,0,0,0,0,0,0],[2,9,0,0,4,7,8,6,0]])
+testData4 = np.array([[0,0,0,5,0,0,0,0,0],[7,5,4,3,6,1,2,0,0],[3,0,0,0,0,0,0,7,6],[8,0,9,4,1,0,6,0,3],[6,3,0,7,0,9,1,0,0],[0,4,0,0,8,0,9,5,0],[5,1,0,9,0,8,0,0,2],[0,0,0,0,0,0,0,0,0],[2,9,0,0,4,7,8,6,0]])
 
-testData = np.array([[7,0,0,8,4,0,9,0,0],[0,0,1,0,0,0,0,0,0],[9,3,0,0,0,0,8,6,4],[0,0,0,0,7,0,3,0,8],[0,0,6,9,1,0,4,7,0],[0,8,0,0,3,0,0,0,6],[0,5,0,1,0,0,0,0,9],[4,0,9,0,0,3,0,0,1],[0,0,0,0,0,6,0,0,7]])
-"""testData = np.array([[7,0,0,8,4,0,9,0,0],[0,0,1,0,0,0,0,0,0],[9,3,0,0,0,0,8,6,4],[0,0,0,0,7,0,3,0,8],[0,0,6,9,1,0,4,7,0],[0,8,0,0,3,0,0,0,6],[0,5,0,1,0,0,0,0,9],[4,0,9,0,0,3,0,0,0],[0,0,0,0,0,6,0,0,7]])"""
+testData3 = np.array([[7,0,0,8,4,0,9,0,0],[0,0,1,0,0,0,0,0,0],[9,3,0,0,0,0,8,6,4],[0,0,0,0,7,0,3,0,8],[0,0,6,9,1,0,4,7,0],[0,8,0,0,3,0,0,0,6],[0,5,0,1,0,0,0,0,9],[4,0,9,0,0,3,0,0,1],[0,0,0,0,0,6,0,0,7]])
 
+testData2 = np.array([[5,0,0,0,0,0,0,0,1],[2,6,0,0,0,0,0,0,3],[0,0,0,0,0,0,9,0,0],[0,4,0,5,0,0,0,7,0],[7,1,0,0,0,4,0,0,0],[6,2,0,0,1,9,0,5,4],[0,7,4,0,9,5,0,0,2],[0,0,0,8,0,0,0,0,7],[0,0,0,0,0,2,3,0,8]])
+
+testData = np.array([[9,0,0,0,0,0,0,0,1],[0,5,0,0,7,0,6,0,0],[1,0,0,0,0,0,7,0,5],[0,0,4,7,2,0,0,0,0],[0,0,0,5,4,6,1,3,0],[6,2,0,9,0,8,0,0,0],[0,7,0,3,0,0,2,0,4],[2,1,0,6,0,0,0,7,0],[0,0,6,0,0,0,5,1,3]])
 
 """for i in range (0,9):
     print(len(testData[i]))"""

@@ -105,11 +105,11 @@ class SudokuGrid:
                             else:
                                 self.cells.append(SingleCell(i, j, houseNumber, row, column, house, missingInRow, missingInColumn, missingInHouse))
     def trySolve(self):
-        for loops in range(0,5):
+        for loops in range(0,10):
             breakLoop = False
             for i in range(0, 20):
                 if breakLoop:
-                    """print("simple", i)"""
+                    print("simple", i+1)
                     break
                 breakLoop = True
                 for obj in self.cells:
@@ -119,8 +119,12 @@ class SudokuGrid:
                         self.grid[obj.x, obj.y] = obj.me
                         self.cells.remove(obj)
 
-            
+            breakLoop = False
             for i in range(0, 20):
+                if breakLoop:
+                    print("missing", i+1)
+                    break
+                breakLoop = True
                 for obj in self.cells:
                     obj.cleanLists()
                     if obj.simpleCheck():
@@ -140,9 +144,20 @@ class SudokuGrid:
                             if len(potencialNumbers) == 0:
                                         break
                     if len(potencialNumbers)==1:
+                        breakLoop = False
                         self.grid[obj.x, obj.y] = obj.me = potencialNumbers[0]
                         self.cells.remove(obj)
-                           
+            
+            nextLoop = False
+            for i in range (0,9):
+                for j in range (0,9):
+                    if self.grid[i,j] == 0:
+                        nextLoop=True;
+                        break
+                if nextLoop:
+                    break
+            if nextLoop:
+                    break                                
             """
             breakLoop = False
             for i in range(0, 20):
@@ -179,7 +194,7 @@ class SudokuGrid:
                         self.cells.remove(obj)
             """
 
-        print("loops", loops)
+        print("loops", loops+1)
         for i in range (0,9):
             test = set(self.grid[i, :])
             if len(test) != 9:

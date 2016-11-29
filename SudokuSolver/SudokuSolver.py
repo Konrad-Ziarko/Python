@@ -1,5 +1,7 @@
 import numpy as np
 import time
+from colorama import init, Fore, Back, Style
+init(autoreset=True)
 
 class SingleCell:
     def __init__(self, x, y, houseNumber, row, col, house, missingInRow, missingInColumn, missingInHouse):
@@ -194,6 +196,7 @@ for i in range (0,9):
             print()
             print("--"*6, end="")
     print ("")
+before = np.array(testData)
 
 obj = SudokuGrid(testData)
 start_time = time.time()
@@ -202,7 +205,13 @@ print(time.time() - start_time, "\n")
 
 for i in range (0,9):
     for j in range (0,9):
-        print(testData[i][j], end="")
+        if before[i][j] == testData[i][j] and before[i][j] != 0:
+            print(Fore.GREEN + str(testData[i][j]), end="")
+        elif testData[i][j] == 0:
+            print(Fore.RED + str(testData[i][j]), end="")
+        else:
+            print(Fore.LIGHTCYAN_EX + str(testData[i][j]), end="")
+            
         if (j+1) % 3 == 0:
             print("|", end="")
     if (i+1) % 3 == 0:

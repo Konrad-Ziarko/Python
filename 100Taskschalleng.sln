@@ -7,6 +7,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "100Taskschalleng", "100Task
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SudokuSolver", "SudokuSolver\SudokuSolver.pyproj", "{1C9520CA-7A35-4693-89E6-BF0D8A558332}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ImageCompressor", "ImageCompressor\ImageCompressor.pyproj", "{48FBBA24-B182-4A3A-86E8-B93D741C629B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,8 @@ Global
 		{B776EF11-4DED-495F-93E6-15794B5DF562}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C9520CA-7A35-4693-89E6-BF0D8A558332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C9520CA-7A35-4693-89E6-BF0D8A558332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48FBBA24-B182-4A3A-86E8-B93D741C629B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48FBBA24-B182-4A3A-86E8-B93D741C629B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,10 +17,6 @@ COORD._fields_ = [("X", c_short), ("Y", c_short)]
 isRunning = True
 
 
-
-
-
-
 def printColoredSudoku(before, testData):
     for i in range (0,9):
         for j in range (0,9):
@@ -312,7 +308,13 @@ testData = np.array([[9,0,0,0,0,0,0,0,1],[0,5,0,0,7,0,6,0,0],[1,0,0,0,0,0,7,0,5]
 
 delimiterChar = input('Insert delimiter char and press Enter\n')
 os.system('cls')
-fromFile = np.genfromtxt('Sudoku.txt', dtype=(int), delimiter=delimiterChar)
+fileName = input('Insert file name\n');
+os.system('cls')
+try:
+    fromFile = np.genfromtxt(fileName, dtype=(int), delimiter=delimiterChar)
+except:
+    sys.exit()
+
 print_at(0,15, "Press any button and hop to next step")
 print_at(1,15, "Press ESC to exit")
 print_at(0,0,"")

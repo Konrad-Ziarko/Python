@@ -72,7 +72,7 @@ plt.title(str('after - Red '+ str(G)+ '%\nGreen '+str(G)+ '%\nBlue '+str(B)+'%')
 plt.imshow(abs(ifftImg))
 plt.show()
 
-"""
+
 plotR = np.array(img[:,:,0:3])
 plotG = np.array(img[:,:,0:3])
 plotB = np.array(img[:,:,0:3])
@@ -93,4 +93,4 @@ plt.imshow(plotB)
 plt.subplot(224)
 plt.imshow(imgData)
 plt.show()
-"""
+

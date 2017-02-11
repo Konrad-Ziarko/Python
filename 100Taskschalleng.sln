@@ -9,8 +9,6 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SudokuSolver", "SudokuSolve
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ImageCompressor", "ImageCompressor\ImageCompressor.pyproj", "{48FBBA24-B182-4A3A-86E8-B93D741C629B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Temperature", "Temperature\Temperature.vcxproj", "{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2E1314B9-3C4B-436F-8A79-680CD7A50BB5}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\..\Downloads\1426493409034.png = ..\..\..\..\Downloads\1426493409034.png
@@ -44,16 +42,6 @@ Global
 		{48FBBA24-B182-4A3A-86E8-B93D741C629B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48FBBA24-B182-4A3A-86E8-B93D741C629B}.Release|x64.ActiveCfg = Release|Any CPU
 		{48FBBA24-B182-4A3A-86E8-B93D741C629B}.Release|x86.ActiveCfg = Release|Any CPU
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Debug|x64.ActiveCfg = Debug|x64
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Debug|x64.Build.0 = Debug|x64
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Debug|x86.ActiveCfg = Debug|Win32
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Debug|x86.Build.0 = Debug|Win32
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Release|Any CPU.ActiveCfg = Release|Win32
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Release|x64.ActiveCfg = Release|x64
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Release|x64.Build.0 = Release|x64
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Release|x86.ActiveCfg = Release|Win32
-		{3B14A0A9-B0ED-404E-9E60-D6C881D319D4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

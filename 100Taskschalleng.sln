@@ -9,9 +9,9 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SudokuSolver", "SudokuSolve
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ImageCompressor", "ImageCompressor\ImageCompressor.pyproj", "{48FBBA24-B182-4A3A-86E8-B93D741C629B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2E1314B9-3C4B-436F-8A79-680CD7A50BB5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57F3022A-595F-40AE-96FA-E91A2B898284}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Downloads\1426493409034.png = ..\..\..\..\Downloads\1426493409034.png
+		1426493409034.png = 1426493409034.png
 	EndProjectSection
 EndProject
 Global
